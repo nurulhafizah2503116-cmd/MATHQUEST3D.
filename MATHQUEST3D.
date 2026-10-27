@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Bangun Ruang Sisi Lengkung – Kelas 9</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#12203a;--sheet:#f3f6fb;--chalk:#ffd23f;--teal:#1fb5a8;--coral:#ef5b5b;--line:#d5deec}
+*{box-sizing:border-box}[hidden]{display:none!important}
+html,body{margin:0;height:100%;overflow:hidden;font-family:Nunito,'Segoe UI',system-ui,sans-serif;color:var(--ink);background:var(--ink)}
+#app{display:flex;flex-direction:column;height:100dvh;padding-top:env(safe-area-inset-top)}
+#top{display:flex;gap:6px;align-items:center;padding:8px;background:var(--ink);overflow-x:auto}
+#top button{border:0;border-radius:20px;padding:8px 14px;font:800 14px Nunito,sans-serif;background:#243a63;color:#dbe6ff;white-space:nowrap;cursor:pointer}
+#top button.on{background:var(--chalk);color:var(--ink)}
+#top .sp{flex:1}
+#stage{position:relative;flex:1;min-height:150px;background:radial-gradient(circle at 50% 40%,#2a4a82,#12203a 75%)}
+#cv{width:100%;height:100%;display:block;touch-action:none}
+#pn{position:absolute;width:250px;background:#fff;border:3px solid var(--chalk);border-radius:14px;padding:10px 12px;font-size:13.5px;box-shadow:0 8px 24px #0006;z-index:5}
+#pn p{margin:6px 0}#pn b{font-size:15px}.sm{float:right;font-size:11px;color:#7a88a6}
+.fm{font:800 20px Nunito;background:var(--chalk);padding:8px;border-radius:8px;text-align:center}
+.cl{background:#eef3fb;padding:6px 8px;border-radius:8px;font-size:12.5px}
+.bt{display:flex;gap:6px;flex-wrap:wrap}.bt button,#sh button.b{border:0;border-radius:10px;padding:7px 11px;font:800 13px Nunito;background:#dde6f5;color:var(--ink);cursor:pointer}
+.bt .ok,#sh .ok{background:var(--teal)!important;color:#fff!important}
+#dot{position:absolute;width:12px;height:12px;margin:-6px;border-radius:50%;background:var(--chalk);box-shadow:0 0 0 4px #ffd23f55;z-index:4;pointer-events:none}
+#hint{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);background:#000a;color:#fff;padding:7px 12px;border-radius:20px;font-size:13px;cursor:pointer;z-index:5;white-space:nowrap}
+#sh{height:44%;background:var(--sheet);border-radius:18px 18px 0 0;display:flex;flex-direction:column;padding-bottom:env(safe-area-inset-bottom)}
+#sh.min{height:50px}#sh.min #bd{display:none}
+#tabs{display:flex;gap:6px;padding:8px 10px;border-bottom:1px solid var(--line)}
+#tabs button{border:0;background:none;font:800 14px Nunito;padding:6px 12px;border-radius:14px;color:#52628a;cursor:pointer}
+#tabs button.on{background:var(--ink);color:#fff}
+#bd{flex:1;overflow:auto;padding:10px 14px 16px}
+.row{display:flex;align-items:center;gap:10px;margin:8px 0;font-weight:800}.row input{flex:1;accent-color:var(--teal)}
+.out{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin:10px 0}
+.out div{background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px;font-size:13px}.out b{display:block;font-size:17px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.chips button{border:2px solid var(--line);background:#fff;border-radius:16px;padding:6px 12px;font:800 13px Nunito;cursor:pointer;color:var(--ink)}
+.chips button.on{border-color:var(--chalk);background:#fff6cf}
+.q{font-size:16px;font-weight:800;margin:10px 0}
+.op{display:block;width:100%;text-align:left;margin:6px 0;border:2px solid var(--line);background:#fff;border-radius:12px;padding:10px 12px;font:700 15px Nunito;cursor:pointer;color:var(--ink)}
+.op.g{background:#d3f5ea;border-color:var(--teal)}.op.r{background:#ffe0e0;border-color:var(--coral)}
+.fb{background:#fff;border-left:5px solid var(--teal);border-radius:8px;padding:8px 12px;margin:8px 0;font-size:14px}.fb.x{border-color:var(--coral)}
+.fb ol{margin:4px 0 0 18px;padding:0}.sc{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-weight:800;margin-bottom:6px}
+#toast{position:fixed;top:70px;left:50%;transform:translateX(-50%);background:var(--chalk);padding:10px 18px;border-radius:20px;font-weight:800;z-index:20;box-shadow:0 6px 20px #0005}
+#kv{position:fixed;inset:0;background:#fff;z-index:30;overflow:auto;padding:16px}
+#cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px;margin-top:12px}
+.card{border:3px solid var(--ink);border-radius:16px;padding:12px;text-align:center;background:linear-gradient(#fff,#eef3fb);break-inside:avoid}
+.card h3{margin:0 0 6px}.card img{width:150px;height:150px}
+dialog{border:0;border-radius:16px;padding:18px;max-width:420px;width:92%}dialog input{width:100%;padding:8px;margin:4px 0 10px;border:2px solid var(--line);border-radius:8px;font:600 14px Nunito}
+pre{background:#12203a;color:#cde;padding:8px;border-radius:8px;font-size:11px;white-space:pre-wrap}
+@media print{.np{display:none}}
+</style></head><body>
+<div id="app">
+ <div id="top"></div>
+ <div id="stage"><canvas id="cv"></canvas><div id="dot" hidden></div><div id="pn" hidden></div><div id="hint" hidden>🔍 Zoom lebih dekat untuk membuka penjelasan</div></div>
+ <div id="sh">
+  <div id="tabs"><button data-t="j" class="on">🧭 Jelajah</button><button data-t="l">✏️ Latihan</button><button id="mn" style="margin-left:auto">▾</button></div>
+  <div id="bd"></div>
+ </div>
+</div>
+<div id="kv" hidden>
+ <div class="np"><button onclick="location.hash='tabung'" style="padding:8px 14px;font-weight:800">← Kembali</button> <button onclick="print()" style="padding:8px 14px;font-weight:800">🖨️ Cetak kartu</button></div>
+ <p class="np"><b>Alamat web file ini</b> (isi setelah di-hosting/diunggah, mis. GitHub Pages/Netlify), lalu QR otomatis menyesuaikan:</p>
+ <input id="bu" class="np" style="width:100%;padding:8px">
+ <div id="cg"></div>
+</div>
+<dialog id="pf"><h3 style="margin-top:0">Profil siswa</h3>
+ <label>Nama</label><input id="pn1"><label>Kode kelas</label><input id="pk1" placeholder="mis. 9A">
+ <label>URL Google Apps Script (opsional, untuk rekap guru)</label><input id="pu1" placeholder="https://script.google.com/macros/s/.../exec">
+ <details><summary>Cara membuat rekap Google Sheet (guru)</summary><p style="font-size:12px">Buka Google Sheet → Ekstensi → Apps Script → tempel kode ini → Deploy → Web app (akses: Siapa saja) → salin URL ke kolom di atas.</p>
+<pre>function doPost(e){var d=JSON.parse(e.postData.contents);
+SpreadsheetApp.getActiveSheet().appendRow([new Date(),d.nama,d.kelas,d.bangun,d.level,d.benar?'Benar':'Salah',d.soal]);
+return ContentService.createTextOutput('ok')}</pre></details>
+ <div class="bt"><button class="ok" id="ps" style="border:0;border-radius:10px;padding:8px 14px;font-weight:800">Simpan</button><button onclick="pf.close()" style="border:0;border-radius:10px;padding:8px 14px;font-weight:800">Lewati</button></div>
+</dialog>
+<div id="toast" hidden></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script>
+const $=s=>document.querySelector(s),PI=Math.PI,P=22/7,U=.3,V3=(x,y,z)=>new THREE.Vector3(x,y,z);
+const fmt=(n,d=2)=>(+n.toFixed(d)).toLocaleString('id-ID');
+const RD=a=>a[Math.random()*a.length|0];
+const SN={tabung:'Tabung',kerucut:'Kerucut',bola:'Bola',gabungan:'Gabungan'};
+const NM={alas:'Alas',tutup:'Tutup',selimut:'Selimut',tinggi:'Tinggi (t)',pelukis:'Garis pelukis (s)',kulit:'Kulit bola',isi:'Isi & jari-jari',belahan:'Belahan bola'};
+const PT={tabung:['alas','tutup','selimut','tinggi'],kerucut:['alas','selimut','tinggi','pelukis'],bola:['kulit','isi'],gabungan:['alas','selimut','belahan','tinggi']};
+const COL={alas:'#3b82f6',tutup:'#a855f7',selimut:'#f59e0b',tinggi:'#ef4444',pelukis:'#22c55e',kulit:'#06b6d4',isi:'#ef4444',belahan:'#ec4899',jari:'#22c55e'};
+let shape='tabung',r=5,t=8,sel=null,ps=0,fo=0,tab='j',lvl='mudah',Q=null,allM=[],anchors={},prof={},st={};
+
+/* ===== KONTEN KONSEP & RUMUS ===== */
+const sl=()=>Math.hypot(r,t);
+const A_={s:['Alas berbentuk lingkaran dengan jari-jari r (garis hijau).','Bagi lingkaran menjadi juring-juring kecil, lalu susun berselang-seling. Hasilnya mirip persegi panjang.','Panjangnya = ½ keliling = πr, lebarnya = r. Luas = πr × r.'],f:'L alas = πr²',c:()=>`π × ${r}² = ${fmt(PI*r*r)}`};
+const S_={s:['Bayangkan selimut digunting dari atas ke bawah lalu dibentangkan.','Hasilnya persegi panjang. Lebarnya = tinggi tabung (t).','Panjangnya = keliling alas = 2πr.','Luas = panjang × lebar.'],f:'L selimut = 2πrt',c:()=>`2π × ${r} × ${t} = ${fmt(2*PI*r*t)}`};
+const CT={
+tabung:{alas:A_,selimut:S_,
+ tutup:{s:['Tutup tabung sama persis (kongruen) dengan alas.','Luas permukaan = alas + tutup + selimut.','= πr² + πr² + 2πrt, lalu difaktorkan 2πr.'],f:'L permukaan = 2πr(r + t)',c:()=>`2π × ${r} × (${r}+${t}) = ${fmt(2*PI*r*(r+t))}`},
+ tinggi:{s:['Tabung dapat dipandang sebagai tumpukan lingkaran alas setinggi t.','Setiap lapisan luasnya πr².','Volume = luas alas × tinggi.'],f:'V = πr²t',c:()=>`π × ${r}² × ${t} = ${fmt(PI*r*r*t)}`}},
+kerucut:{alas:{...A_,s:[...A_.s,'Luas permukaan kerucut = luas alas + luas selimut.'],f:'L alas = πr²  ;  L permukaan = πr(r + s)'},
+ selimut:{s:['Gunting selimut dari puncak ke tepi alas, lalu bentangkan.','Hasilnya juring lingkaran berjari-jari s (garis pelukis).','Panjang busur juring = keliling alas = 2πr.','Luas juring = (2πr ÷ 2πs) × πs² = πrs.'],f:'L selimut = πrs',c:()=>`π × ${r} × ${fmt(sl())} = ${fmt(PI*r*sl())}`},
+ tinggi:{s:['Siapkan tabung dan kerucut dengan alas & tinggi sama.','Isi kerucut dengan pasir, lalu tuang ke tabung.','Dibutuhkan 3 kali tuang sampai tabung penuh.','Jadi volume kerucut = ⅓ volume tabung.'],f:'V = ⅓πr²t',c:()=>`⅓ × π × ${r}² × ${t} = ${fmt(PI*r*r*t/3)}`},
+ pelukis:{s:['Tinggi t, jari-jari r, dan garis pelukis s membentuk segitiga siku-siku.','s adalah sisi miring (hipotenusa).','Dengan Pythagoras: s² = r² + t².'],f:'s = √(r² + t²)',c:()=>`√(${r}² + ${t}²) = ${fmt(sl())}`}},
+bola:{kulit:{s:['Kulit bola tidak bisa dibentangkan datar. Archimedes membandingkannya dengan lingkaran besar (luas πr²).','Kulit setengah bola ternyata menutup tepat 2 lingkaran besar.','Jadi seluruh kulit bola menutup 4 lingkaran besar.'],f:'L = 4πr²',c:()=>`4 × π × ${r}² = ${fmt(4*PI*r*r)}`},
+ isi:{s:['Bayangkan tabung berjari-jari r dan tinggi 2r yang pas membungkus bola. Volumenya = πr² × 2r = 2πr³.','Archimedes menemukan: isi bola = ⅔ volume tabung pembungkusnya.','Volume bola = ⅔ × 2πr³.'],f:'V = ⁴⁄₃πr³',c:()=>`⁴⁄₃ × π × ${r}³ = ${fmt(4*PI*r**3/3)}`}},
+gabungan:{alas:A_,selimut:S_,
+ belahan:{s:['Belahan bola adalah setengah bola dengan jari-jari sama seperti tabung.','Luas lengkungnya = ½ × 4πr² = 2πr².','Volumenya = ½ × ⁴⁄₃πr³ = ⅔πr³.'],f:'L = 2πr²  ;  V = ⅔πr³',c:()=>`L = ${fmt(2*PI*r*r)} ; V = ${fmt(2*PI*r**3/3)}`},
+ tinggi:{s:['Volume gabungan = volume tabung + volume belahan bola.','Luas permukaan = alas + selimut tabung + belahan. Tutup tabung tidak dihitung karena tertutup belahan.'],f:'V = πr²t + ⅔πr³',c:()=>`V = ${fmt(PI*r*r*t+2*PI*r**3/3)} ; L = ${fmt(3*PI*r*r+2*PI*r*t)}`}}};
+function calc(){const a=PI*r*r;
+ if(shape=='tabung')return[a*t,2*PI*r*(r+t)];
+ if(shape=='kerucut')return[a*t/3,PI*r*(r+sl())];
+ if(shape=='bola')return[4*PI*r**3/3,4*a];
+ return[a*t+2*PI*r**3/3,3*a+2*PI*r*t]}
+
+/* ===== 3D ===== */
+const stage=$('#stage'),cv=$('#cv'),dot=$('#dot'),pn=$('#pn'),hint=$('#hint');
+const ren=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true});ren.setPixelRatio(Math.min(devicePixelRatio,2));
+const scene=new THREE.Scene(),cam=new THREE.PerspectiveCamera(45,1,.1,100),root=new THREE.Group();
+scene.add(root,new THREE.HemisphereLight(0xffffff,0x44557a,1.05));
+const dl=new THREE.DirectionalLight(0xffffff,.8);dl.position.set(5,8,6);scene.add(dl);
+const grid=new THREE.GridHelper(24,24,0x4a6190,0x2c4270);grid.position.y=-4.4;scene.add(grid);
+const o={th:.7,ph:1.25,d:12,tx:0,ty:0,tz:0},g={d:12,tx:0,ty:0,tz:0},cd=d=>Math.min(25,Math.max(2.5,d));
+function rs(){const w=stage.clientWidth,h=stage.clientHeight;ren.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix()}
+new ResizeObserver(rs).observe(stage);
+function camU(){o.d+=(g.d-o.d)*.12;for(const k of['tx','ty','tz'])o[k]+=(g[k]-o[k])*.12;
+ const s=Math.sin(o.ph);cam.position.set(o.tx+o.d*s*Math.sin(o.th),o.ty+o.d*Math.cos(o.ph),o.tz+o.d*s*Math.cos(o.th));cam.lookAt(o.tx,o.ty,o.tz)}
+const ptr=new Map();let moved=0,pd=0;
+const pdist=()=>{const a=[...ptr.values()];return a.length<2?0:Math.hypot(a[0][0]-a[1][0],a[0][1]-a[1][1])};
+cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);ptr.set(e.pointerId,[e.clientX,e.clientY]);moved=0;pd=pdist()});
+cv.addEventListener('pointermove',e=>{if(!ptr.has(e.pointerId))return;const p=ptr.get(e.pointerId);
+ if(ptr.size==1){const dx=e.clientX-p[0],dy=e.clientY-p[1];moved+=Math.abs(dx)+Math.abs(dy);o.th-=dx*.01;o.ph=Math.min(3,Math.max(.2,o.ph-dy*.01))}
+ ptr.set(e.pointerId,[e.clientX,e.clientY]);
+ if(ptr.size==2){const d=pdist();if(pd)g.d=o.d=cd(o.d*pd/d);pd=d;moved+=10}});
+cv.addEventListener('pointerup',e=>{if(ptr.size==1&&moved<6)pick(e);ptr.delete(e.pointerId)});
+cv.addEventListener('pointercancel',e=>ptr.delete(e.pointerId));
+cv.addEventListener('wheel',e=>{e.preventDefault();g.d=cd(g.d*(1+e.deltaY*.001))},{passive:false});
+const rc=new THREE.Raycaster();
+function pick(e){const b=cv.getBoundingClientRect();rc.setFromCamera({x:(e.clientX-b.left)/b.width*2-1,y:-(e.clientY-b.top)/b.height*2+1},cam);
+ const h=rc.intersectObjects(allM,false);pilih(h.length?h[0].object.userData.pid:null)}
+
+function mk(geo,pid,pos,dir,line,col){const m=new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:col||COL[pid],side:2,transparent:true,opacity:.9,roughness:.45}));
+ pos=pos||V3(0,0,0);dir=dir||V3(0,0,0);m.position.copy(pos);m.userData={pid,dir,base:pos.clone(),line};
+ if(!anchors[pid])anchors[pid]=pos.clone().add(dir);root.add(m);allM.push(m);return m}
+function seg(a,b,pid,col){const d=b.clone().sub(a),m=mk(new THREE.CylinderGeometry(.05,.05,d.length(),8),pid,a.clone().add(b).multiplyScalar(.5),null,1,col);
+ m.quaternion.setFromUnitVectors(V3(0,1,0),d.clone().normalize())}
+function build(){allM.forEach(m=>{m.geometry.dispose();m.material.dispose();root.remove(m)});allM=[];anchors={};
+ const R=r*U,T=t*U,h=T/2,ci=up=>new THREE.CircleGeometry(R,48).rotateX(up?-PI/2:PI/2),cy=()=>new THREE.CylinderGeometry(R,R,T,48,1,true);
+ if(shape=='tabung'){mk(ci(0),'alas',V3(0,-h,0),V3(0,-1.8,0));mk(ci(1),'tutup',V3(0,h,0),V3(0,1.8,0));mk(cy(),'selimut',null,V3(R+1.6,0,0));
+  seg(V3(0,-h,0),V3(0,h,0),'tinggi');seg(V3(0,-h,0),V3(R,-h,0),'alas',COL.jari)}
+ else if(shape=='kerucut'){mk(ci(0),'alas',V3(0,-h,0),V3(0,-1.8,0));mk(new THREE.ConeGeometry(R,T,48,1,true),'selimut',null,V3(R+1.6,0,0));
+  seg(V3(0,-h,0),V3(0,h,0),'tinggi');seg(V3(R,-h,0),V3(0,h,0),'pelukis');seg(V3(0,-h,0),V3(R,-h,0),'alas',COL.jari)}
+ else if(shape=='bola'){mk(new THREE.SphereGeometry(R,48,24,0,2*PI,0,PI/2),'kulit',null,V3(0,R+.6,0));mk(new THREE.SphereGeometry(R,48,24,0,2*PI,PI/2,PI/2),'kulit',null,V3(0,-R-.6,0));
+  seg(V3(0,0,0),V3(R,0,0),'isi',COL.jari);mk(new THREE.SphereGeometry(.14,16,12),'isi',null,null,1,'#ef4444')}
+ else{mk(ci(0),'alas',V3(0,-h,0),V3(0,-1.8,0));mk(cy(),'selimut',null,V3(R+1.6,0,0));mk(new THREE.SphereGeometry(R,48,24,0,2*PI,0,PI/2),'belahan',V3(0,h,0),V3(0,2.2,0));
+  seg(V3(0,-h,0),V3(0,h,0),'tinggi');seg(V3(0,h,0),V3(R,h,0),'belahan',COL.jari)}
+ if(sel&&anchors[sel]){g.tx=anchors[sel].x;g.ty=anchors[sel].y;g.tz=anchors[sel].z}}
+function loop(){requestAnimationFrame(loop);camU();
+ for(const m of allM){const u=m.userData,on=sel==u.pid,tg=sel?(on?1:(u.line?.85:.15)):.9;m.material.opacity+=(tg-m.material.opacity)*.15;m.position.lerp(on?u.base.clone().add(u.dir):u.base,.15)}
+ ren.render(scene,cam);place()}
+function place(){if(!sel){pn.hidden=dot.hidden=hint.hidden=true;return}
+ const z=o.d<8;hint.hidden=z;pn.hidden=dot.hidden=!z;if(!z)return;
+ const v=anchors[sel].clone().project(cam),W=stage.clientWidth,H=stage.clientHeight,x=(v.x+1)/2*W,y=(1-v.y)/2*H;
+ dot.style.left=x+'px';dot.style.top=y+'px';const w=pn.offsetWidth,h=pn.offsetHeight;
+ let L=Math.min(W-w-6,Math.max(6,x-w/2)),T=y-h-14;if(T<6)T=Math.min(Math.max(6,H-h-6),y+16);pn.style.left=L+'px';pn.style.top=T+'px'}
+
+/* ===== PILIH BAGIAN & PANEL MELAYANG ===== */
+function pilih(p){sel=p;ps=0;fo=0;
+ if(p){const a=anchors[p];g.tx=a.x;g.ty=a.y;g.tz=a.z;g.d=5.5;rp()}else{g.tx=g.ty=g.tz=0;g.d=12}
+ chips()}
+function rp(){if(!sel)return;const c=CT[shape][sel],n=c.s.length;
+ let h=`<b>${NM[sel]}</b><span class=sm>${fo?'Rumus':'Konsep '+(ps+1)+'/'+n}</span>`;
+ if(!fo)h+=`<p>${c.s[ps]}</p><div class=bt>${ps>0?'<button onclick="PP(-1)">‹</button>':''}${ps<n-1?'<button onclick="PP(1)">Lanjut ›</button>':'<button class=ok onclick="FF()">✔ Saya paham, tampilkan rumus</button>'}</div>`;
+ else h+=`<p class=fm>${c.f}</p><p class=cl>Dengan r = ${r}${shape!='bola'?', t = '+t:''}:<br>${c.c()}</p><div class=bt><button onclick="fo=0;ps=0;rp()">↺ Ulangi konsep</button><button class=ok onclick="setTab('l')">✏️ Latihan</button></div>`;
+ pn.innerHTML=h}
+function PP(d){ps=Math.max(0,ps+d);rp()}function FF(){fo=1;rp()}
+hint.onclick=()=>{g.d=5.5};
+
+/* ===== TAB JELAJAH / LATIHAN ===== */
+function setTab(x){tab=x;document.querySelectorAll('#tabs [data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t==x));$('#sh').classList.remove('min');draw()}
+document.querySelectorAll('#tabs [data-t]').forEach(b=>b.onclick=()=>setTab(b.dataset.t));
+$('#mn').onclick=()=>{$('#sh').classList.toggle('min');setTimeout(rs,50)};
+function draw(){tab=='j'?drawJ():drawL()}
+function drawJ(){
+ $('#bd').innerHTML=`<div class=row>r <input type=range id=sr min=1 max=10 value=${r}> <span id=vr>${r}</span></div>
+ ${shape!='bola'?`<div class=row>t <input type=range id=stt min=1 max=15 value=${t}> <span id=vt>${t}</span></div>`:''}
+ <div class=out id=out></div>
+ <div><b>Ketuk bagian</b> pada gambar atau pilih di bawah. Bagian akan terlepas, lalu <b>zoom</b> untuk membaca konsep dan rumus yang melayang.</div>
+ <div class=chips id=ch></div>`;
+ $('#sr').oninput=e=>{r=+e.target.value;$('#vr').textContent=r;upd()};
+ if($('#stt'))$('#stt').oninput=e=>{t=+e.target.value;$('#vt').textContent=t;upd()};
+ out();chips()}
+function out(){const[V,L]=calc();if(!$('#out'))return;
+ $('#out').innerHTML=`<div>Volume<b>${fmt(V,1)}</b>satuan³</div><div>Luas permukaan<b>${fmt(L,1)}</b>satuan²</div>${shape=='kerucut'?`<div>Garis pelukis s<b>${fmt(sl())}</b>satuan</div>`:''}`}
+function upd(){build();out();rp()}
+function chips(){const c=$('#ch');if(!c)return;
+ c.innerHTML=PT[shape].map(p=>`<button class="${sel==p?'on':''}" data-p=${p}>${NM[p]}</button>`).join('')+`<button data-p="">⟲ Susun kembali</button>`;
+ c.querySelectorAll('button').forEach(b=>b.onclick=()=>pilih(b.dataset.p||null))}
+
+/* ===== BANK SOAL ACAK ===== */
+function Qn(q,a,steps,wr,suf='',u=''){const f=v=>fmt(v)+suf+u,k=new Set([f(a)]);let op=[a];
+ [...wr,a*2,a+1,a*3,a+2].forEach(v=>{if(op.length<4&&v>0&&!k.has(f(v))){k.add(f(v));op.push(v)}});
+ return{q,steps,opts:op.sort(()=>Math.random()-.5).map(f),ok:f(a)}}
+const TRI=[[3,4,5],[5,12,13],[6,8,10],[8,15,17],[12,5,13],[9,12,15]];
+const G={
+tabung:{
+ mudah(){const r=7*RD([1,2,3]),t=RD([5,10,12]),v=P*r*r*t;return Qn(`Sebuah tabung berjari-jari ${r} cm dan tinggi ${t} cm. Hitung volumenya! (π = 22/7)`,v,['V = πr²t',`V = 22/7 × ${r}² × ${t}`,`V = 22/7 × ${r*r} × ${t}`,`V = ${fmt(v)} cm³`],[P*r*t,v/3,2*P*r*t,P*r*r],'',' cm³')},
+ sedang(){const r=RD([3,4,5,6,8,10]),t=RD([5,7,9,10,12]),a=2*r*(r+t);return Qn(`Tabung berjari-jari ${r} cm dan tinggi ${t} cm. Berapa luas permukaannya? (dalam π)`,a,['L = 2πr(r + t)',`L = 2π × ${r} × (${r} + ${t})`,`L = 2π × ${r} × ${r+t}`,`L = ${a}π cm²`],[2*r*t,r*(r+t),r*r+2*r*t],'π',' cm²')},
+ sulit(){const r=RD([3,4,5,6]),t=RD([4,5,8,10]),V=r*r*t;return Qn(`Volume sebuah tabung adalah ${V}π cm³ dan jari-jarinya ${r} cm. Berapa tinggi tabung?`,t,['V = πr²t',`${V}π = π × ${r}² × t`,`${V} = ${r*r} × t`,`t = ${V} ÷ ${r*r} = ${t} cm`],[V/r,t*r,t+r,t*2],'',' cm')},
+ cerita(){const r=RD([7,14]),t=RD([10,20,30,40,50]),c=P*r*r*t,a=c/1000;return Qn(`Sebuah drum berbentuk tabung berdiameter ${2*r} cm dan tinggi ${t} cm, diisi penuh air. Berapa liter air di dalamnya? (π = 22/7; 1 liter = 1.000 cm³)`,a,[`Jari-jari = ${2*r} ÷ 2 = ${r} cm`,`V = πr²t = 22/7 × ${r}² × ${t} = ${fmt(c)} cm³`,`Dalam liter: ${fmt(c)} ÷ 1.000 = ${fmt(a)} liter`],[a*4,a/3,a*10,a*3],'',' liter')}},
+kerucut:{
+ mudah(){const r=7*RD([1,2]),t=RD([6,9,12]),v=P*r*r*t/3;return Qn(`Sebuah kerucut berjari-jari ${r} cm dan tinggi ${t} cm. Berapa volumenya? (π = 22/7)`,v,['V = ⅓πr²t',`V = ⅓ × 22/7 × ${r}² × ${t}`,`V = ${fmt(v)} cm³`],[P*r*r*t,P*r*t/3,2*P*r*r*t/3],'',' cm³')},
+ sedang(){const[r,t,s]=RD(TRI);return Qn(`Kerucut berjari-jari ${r} cm dan tinggi ${t} cm. Berapa luas selimutnya? (dalam π)`,r*s,[`Garis pelukis s = √(${r}² + ${t}²) = √${r*r+t*t} = ${s} cm`,'L selimut = πrs',`L selimut = π × ${r} × ${s} = ${r*s}π cm²`],[r*t,r*(r+s),s*s],'π',' cm²')},
+ sulit(){const[r,t,s]=RD(TRI),v=r*r*t/3;return Qn(`Kerucut berjari-jari ${r} cm dan garis pelukis ${s} cm. Berapa volumenya? (dalam π)`,v,[`Tinggi t = √(${s}² − ${r}²) = √${s*s-r*r} = ${t} cm`,'V = ⅓πr²t',`V = ⅓ × π × ${r*r} × ${t} = ${v}π cm³`],[r*r*s/3,r*r*t,r*t*t/3],'π',' cm³')},
+ cerita(){const[r,t,s]=RD([[7,24,25],[14,48,50],[21,28,35]]),a=P*r*s;return Qn(`Topi ulang tahun berbentuk kerucut dengan diameter alas ${2*r} cm dan tinggi ${t} cm. Berapa luas minimal kertas untuk selimutnya? (π = 22/7)`,a,[`Jari-jari r = ${r} cm`,`s = √(${r}² + ${t}²) = ${s} cm`,`L selimut = πrs = 22/7 × ${r} × ${s} = ${fmt(a)} cm²`],[P*r*t,P*r*(r+s),2*P*r*s],'',' cm²')}},
+bola:{
+ mudah(){const r=7*RD([1,2,3]),a=4*P*r*r;return Qn(`Sebuah bola berjari-jari ${r} cm. Berapa luas permukaannya? (π = 22/7)`,a,['L = 4πr²',`L = 4 × 22/7 × ${r}²`,`L = ${fmt(a)} cm²`],[P*r*r,2*P*r*r,4*P*r**3/3],'',' cm²')},
+ sedang(){const r=RD([3,6,9,12]),v=4*r**3/3;return Qn(`Bola berjari-jari ${r} cm. Berapa volumenya? (dalam π)`,v,['V = ⁴⁄₃πr³',`V = ⁴⁄₃ × π × ${r}³ = ⁴⁄₃ × π × ${r**3}`,`V = ${v}π cm³`],[4*r*r,4*r**3,2*r**3/3],'π',' cm³')},
+ sulit(){const r=RD([3,6,9,12]),v=4*r**3/3;return Qn(`Volume sebuah bola ${v}π cm³. Berapa jari-jarinya?`,r,['V = ⁴⁄₃πr³',`${v}π = ⁴⁄₃πr³  →  r³ = ${v} × ¾ = ${r**3}`,`r = ∛${r**3} = ${r} cm`],[2*r,r+3,r*r/3,r/2],'',' cm')},
+ cerita(){const r=RD([21,42]),c=4*P*r**3/3,a=c/1000;return Qn(`Tangki air berbentuk bola berdiameter ${2*r} cm terisi penuh. Berapa liter isinya? (π = 22/7; 1 liter = 1.000 cm³)`,a,[`r = ${2*r} ÷ 2 = ${r} cm`,`V = ⁴⁄₃πr³ = ⁴⁄₃ × 22/7 × ${r}³ = ${fmt(c)} cm³`,`${fmt(c)} ÷ 1.000 = ${fmt(a)} liter`],[4*P*r*r/1000,a*3/4,a*8],'',' liter')}},
+gabungan:{
+ mudah(){const r=RD([3,6,9]),v=2*r**3/3;return Qn(`Volume sebuah belahan bola berjari-jari ${r} cm adalah … (dalam π)`,v,['V belahan = ½ × ⁴⁄₃πr³ = ⅔πr³',`V = ⅔ × π × ${r**3}`,`V = ${v}π cm³`],[4*r**3/3,2*r*r,r**3/3],'π',' cm³')},
+ sedang(){const r=RD([3,6]),t=RD([4,5,10]),v=r*r*t+2*r**3/3;return Qn(`Sebuah bangun terdiri dari tabung (r = ${r} cm, t = ${t} cm) dengan belahan bola di atasnya. Berapa volumenya? (dalam π)`,v,[`V tabung = πr²t = ${r*r*t}π`,`V belahan = ⅔πr³ = ${2*r**3/3}π`,`V total = ${r*r*t}π + ${2*r**3/3}π = ${v}π cm³`],[r*r*t+4*r**3/3,r*r*t,r*r*t/3+2*r**3/3],'π',' cm³')},
+ sulit(){const r=RD([3,4,5,6]),t=RD([5,8,10]),a=3*r*r+2*r*t;return Qn(`Bangun gabungan: tabung (r = ${r} cm, t = ${t} cm) dengan belahan bola di atasnya (tanpa tutup tabung). Berapa luas permukaannya? (dalam π)`,a,[`Alas = πr² = ${r*r}π`,`Selimut = 2πrt = ${2*r*t}π`,`Belahan = 2πr² = ${2*r*r}π`,`Total = ${r*r}π + ${2*r*t}π + ${2*r*r}π = ${a}π cm²`],[4*r*r+2*r*t,2*r*r+2*r*t,3*r*r+r*t],'π',' cm²')},
+ cerita(){const r=21,t=RD([30,40,50]),a=P*r*r*t+2*P*r**3/3;return Qn(`Tangki berbentuk tabung (diameter 42 cm, tinggi ${t} cm) dengan penutup berbentuk belahan bola. Berapa volume tangki? (π = 22/7)`,a,['r = 42 ÷ 2 = 21 cm',`V tabung = 22/7 × 21² × ${t} = ${fmt(P*r*r*t)} cm³`,`V belahan = ⅔ × 22/7 × 21³ = ${fmt(2*P*r**3/3)} cm³`,`V total = ${fmt(a)} cm³`],[P*r*r*t+4*P*r**3/3,P*r*r*t,P*r*r*t/3+2*P*r**3/3],'',' cm³')}}};
+
+/* ===== LATIHAN, BINTANG, LENCANA ===== */
+const W={mudah:1,sedang:2,sulit:3,cerita:3},LN={mudah:'Mudah',sedang:'Sedang',sulit:'Sulit',cerita:'Cerita'};
+const BD=[['🌱','Langkah Pertama',s=>Object.values(s.c).reduce((a,b)=>a+b,0)>=1],['⭐','Master Mudah',s=>s.c.mudah>=3],['🔥','Master Sedang',s=>s.c.sedang>=3],['💎','Master Sulit',s=>s.c.sulit>=3],['📖','Master Cerita',s=>s.c.cerita>=3],['🏆','Juara Bangun Ruang',s=>Object.values(s.c).every(v=>v>=3)]];
+const skey=()=>'bs_'+(prof.nama||'tamu')+'_'+(prof.kelas||'');
+function loadSt(){try{st=JSON.parse(localStorage.getItem(skey()))||{}}catch(e){st={}}st.c=st.c||{mudah:0,sedang:0,sulit:0,cerita:0};st.n=st.n||0}
+function saveSt(){try{localStorage.setItem(skey(),JSON.stringify(st))}catch(e){}}
+const stars=()=>Object.keys(W).reduce((a,k)=>a+st.c[k]*W[k],0);
+function toast(m){const e=$('#toast');e.textContent=m;e.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>e.hidden=true,2600)}
+function nextQ(){Q=G[shape][lvl]();Q.done=0;if(tab=='l')drawL()}
+function drawL(){const bd=BD.filter(b=>b[2](st)).map(b=>`<span title="${b[1]}">${b[0]}</span>`).join(' ');
+ $('#bd').innerHTML=`<div class=sc><span id=stv>⭐ ${stars()}</span><span>${bd||'Raih lencana pertamamu!'}</span><span style="margin-left:auto;font-weight:600;font-size:12px">${prof.nama?'👤 '+prof.nama:''}</span></div>
+ <div class=chips id=lv>${Object.keys(LN).map(k=>`<button data-l=${k} class="${lvl==k?'on':''}">${LN[k]} (${st.c[k]}✔)</button>`).join('')}</div>
+ <div class=q>${Q.q}</div><div id=ops>${Q.opts.map((o,i)=>`<button class=op data-i=${i}>${o}</button>`).join('')}</div><div id=fbk></div>`;
+ document.querySelectorAll('#lv button').forEach(b=>b.onclick=()=>{lvl=b.dataset.l;nextQ();drawL()});
+ document.querySelectorAll('.op').forEach(b=>b.onclick=()=>jawab(b));
+ if(Q.done)show(Q.pick)}
+const PR=['Hebat! 🎉','Keren sekali! ⭐','Mantap, kamu paham! 💪','Luar biasa! 🌟'],SM=['Belum tepat, tidak apa-apa! 💡 Simak langkahnya.','Hampir! Pelajari langkah berikut 🔍','Salah itu bagian dari belajar 🌱 Lihat caranya.'];
+function jawab(b){if(Q.done)return;Q.done=1;Q.pick=+b.dataset.i;const ok=Q.opts[Q.pick]==Q.ok,before=BD.filter(x=>x[2](st)).length;
+ st.n++;if(ok)st.c[lvl]++;saveSt();show(Q.pick);
+ const aft=BD.filter(x=>x[2](st));if(aft.length>before)toast('Lencana baru: '+aft[aft.length-1][0]+' '+aft[aft.length-1][1]);
+ if($('#stv'))$('#stv').textContent='⭐ '+stars();
+ if(prof.url)try{fetch(prof.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify({nama:prof.nama,kelas:prof.kelas,bangun:SN[shape],level:LN[lvl],benar:ok,soal:Q.q})})}catch(e){}}
+function show(i){const ok=Q.opts[i]==Q.ok;
+ document.querySelectorAll('.op').forEach(b=>{b.disabled=true;if(Q.opts[+b.dataset.i]==Q.ok)b.classList.add('g');else if(+b.dataset.i==i)b.classList.add('r')});
+ $('#fbk').innerHTML=`<div class="fb ${ok?'':'x'}"><b>${ok?RD(PR)+' +'+W[lvl]+' ⭐':RD(SM)}</b><br>Jawaban benar: <b>${Q.ok}</b><ol>${Q.steps.map(s=>`<li>${s}</li>`).join('')}</ol></div><button class="b ok" style="border:0;border-radius:10px;padding:9px 16px;font-weight:800;color:#fff;cursor:pointer" onclick="nextQ();drawL()">Soal berikutnya ▶</button>`}
+
+/* ===== BANGUN, PROFIL, KARTU QR ===== */
+function setShape(s){shape=s;sel=null;r=5;t=8;g.tx=g.ty=g.tz=0;g.d=12;build();document.querySelectorAll('#top [data-s]').forEach(b=>b.classList.toggle('on',b.dataset.s==s));pn.hidden=true;nextQ();draw()}
+$('#top').innerHTML=Object.keys(SN).map(k=>`<button data-s=${k}>${SN[k]}</button>`).join('')+`<span class=sp></span><button id=bp>👤 Profil</button><button onclick="location.hash='kartu'">🎫 Kartu QR</button>`;
+document.querySelectorAll('#top [data-s]').forEach(b=>b.onclick=()=>{location.hash=b.dataset.s});
+const pf=$('#pf');$('#bp').onclick=()=>{$('#pn1').value=prof.nama||'';$('#pk1').value=prof.kelas||'';$('#pu1').value=prof.url||'';pf.showModal()};
+$('#ps').onclick=()=>{prof={nama:$('#pn1').value.trim(),kelas:$('#pk1').value.trim(),url:$('#pu1').value.trim()};try{localStorage.setItem('bs_prof',JSON.stringify(prof))}catch(e){}loadSt();pf.close();draw()};
+function cards(){const base=$('#bu').value.trim().split('#')[0];
+ try{$('#cg').innerHTML=Object.keys(SN).map(k=>{const q=qrcode(0,'M');q.addData(base+'#'+k);q.make();return`<div class=card><h3>${SN[k]}</h3>${q.createImgTag(6,6)}<p style="margin:6px 0 0;font-weight:700">Scan untuk memainkan</p></div>`}).join('')}
+ catch(e){$('#cg').textContent='Pustaka QR gagal dimuat (butuh internet).'}}
+$('#bu').oninput=cards;
+function route(){const h=location.hash.slice(1);$('#kv').hidden=h!='kartu';
+ if(h=='kartu'){if(!$('#bu').value)$('#bu').value=location.href.split('#')[0];cards()}else setShape(SN[h]?h:'tabung')}
+addEventListener('hashchange',route);
+try{prof=JSON.parse(localStorage.getItem('bs_prof'))||{}}catch(e){prof={}}
+loadSt();rs();loop();route();
+if(!prof.nama)setTimeout(()=>$('#bp').click(),400);
+</script></body></html>
